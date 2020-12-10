@@ -1,0 +1,138 @@
+<div class="m-5">
+  <p>Test</p>
+</div>
+<h2 class="ml-5 mb-2">Coffee Shops</h2>
+<div id="accordion" class="ml-5 mr-5">
+  <div class="card" *ngFor="let item of shops | paginate: {itemsPerPage: 6, currentPage: p }">
+    <div class="card-header bg-warning" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#collapse' + item._id" aria-expanded="true" aria-controls="collapseOne">
+          {{ item.name }} - {{ item.location }}
+        </button>
+        <div class="float-right">
+          <button type="button" class="btn btn-outline-default btn-round float-right" (click)="edit()">Add Review</button>
+        </div>
+      </h5>
+    </div>
+    <div id="{{'collapse' + item._id}}" class="collapse collapsed" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-2 m-auto">
+            <div class="form-check mb-3">
+              <label class="form-check-label">
+                <input *ngIf="item.freeWifi == true" class="form-check-input" type="checkbox" checked [disabled]="!edit_mode">
+                <input *ngIf="item.freeWifi == false" class="form-check-input" type="checkbox" [disabled]="!edit_mode"> Free Wifi
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input *ngIf="item.outdoorSeating == true" class="form-check-input" type="checkbox" checked [disabled]="!edit_mode">
+                <input *ngIf="item.outdoorSeating == false" class="form-check-input" type="checkbox" [disabled]="!edit_mode"> Outdoor Seating
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+            <div class="form-check mt-3">
+              <label class="form-check-label">
+                <input *ngIf="item.foodOptions == true" class="form-check-input" type="checkbox" checked [disabled]="!edit_mode">
+                <input *ngIf="item.foodOptions == false" class="form-check-input" type="checkbox"  [disabled]="!edit_mode"> Food Options
+                <span class="form-check-sign"></span>
+              </label>
+            </div>
+          </div>
+          <div class="col-1">
+            <table style="100px;">
+              <tbody>
+                <tr class="align-middle"><strong>Popular Order:</strong></tr>
+                <tr>{{ getPopularOrder(item._id) }}</tr>
+                <tr><br></tr>
+                <tr><strong>Average Cost:</strong></tr>
+                <tr>${{ item.avgPrice }}</tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-9 center">
+            <label for="tasteBar" class="m-0">Taste - {{ (item.taste).toFixed(2) }}</label>
+            <div class="progress mb-2">
+              <div class="progress-bar progress-bar-success" id="tasteBar" role="progressbar" [style.width.%]="item.taste * 10"></div>
+            </div>
+            <label class="m-0">Seating - {{ (item.seating).toFixed(2) }}</label>
+            <div class="progress mb-2">
+              <div class="progress-bar progress-bar-success" role="progressbar" [style.width.%]="item.seating * 10"></div>
+            </div>
+            <label class="m-0">Visual Aesthetic - {{ (item.aesthetic).toFixed(2) }}</label>
+            <div class="progress mb-2">
+              <div class="progress-bar progress-bar-success" role="progressbar" [style.width.%]="item.aesthetic * 10"></div>
+            </div>
+            <label class="m-0">Study Eviroment - {{ (item.study).toFixed(2) }}</label>
+            <div class="progress mb-2">
+              <div class="progress-bar progress-bar-success" role="progressbar" [style.width.%]="item.study * 10"></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="edit_mode">
+          <div class="row m-2">
+            <div class="" style="width: 50%">
+              <label for="tasteRange">Taste</label>
+              <mat-slider min="1" max="10" thumbLabel id="tasteRange" style="width:100%" name="taste" [(ngModel)]="taste"></mat-slider>
+            </div>
+            <div class="" style="width: 50%">
+              <label for="seatingRange">Seating</label>
+              <mat-slider min="1" max="10" thumbLabel id="seatingRange" style="width:100%" name="seating" [(ngModel)]="seating"></mat-slider>
+            </div>
+            <div class="" style="width: 50%">
+              <label for="aestheticRange">Aesthetic</label>
+              <mat-slider min="1" max="10" thumbLabel id="aestheticRange" style="width:100%" name="aesthetic" [(ngModel)]="aesthetic"></mat-slider>
+            </div>
+            <div class="" style="width: 50%">
+              <label for="studyRange">Study</label>
+              <mat-slider min="1" max="10" thumbLabel id="studyRange" style="width:100%" name="study" [(ngModel)]="study"></mat-slider>
+            </div>
+          </div>
+          <div style="width:48%;" class="d-inline float-left mb-3">
+            <label for="commentsBox">Comments</label>
+            <textarea id="commentsBox" class="form-control" rows="8" cols="80" style="width: 100%;" name="comments" [(ngModel)]="comments"></textarea>
+          </div>
+          <div style="width:50%;" class="d-inline float-right">
+            <label for="orderBox">Order</label>
+            <input type="text" id="orderBox" class="form-control mb-2" placeholder="Coffee" name="order" [(ngModel)]="order">
+            <label for="priceBox" class="mt-2">Price</label>
+            <input type="number" id="priceBox" class="form-control col-3 align-bottom" name="price" [(ngModel)]="price">
+            <div class="float-right">
+              <button type="button" class="btn btn-outline-warning btn-round float-right" (click)="addReview(item._id)">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center">
+<pagination-template #pagination="paginationApi" (pageChange)="p = $event">
+  <ul class="pagination">
+    <li class="page-item pagination-previous" [class.disabled]="pagination.isFirstPage()">
+      <a *ngIf="!pagination.isFirstPage()" (click)="pagination.previous()" class="page-link" href="/" onclick="return false;" aria-label="Previous">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li *ngFor="let page of pagination.pages" class="page-link">
+      <a (click)="pagination.setCurrent(page.value)" *ngIf="pagination.getCurrent() !== page.value" href="/" onclick="return false;">
+        {{ page.label }}
+      </a>
+      <a *ngIf="pagination.getCurrent() === page.value" href="/" onclick="return false;">
+        {{ page.label }}
+      </a>
+    </li>
+    <li class="page-item pagination-next" [class.disabled]="pagination.isLastPage()">
+      <a *ngIf="!pagination.isLastPage()" (click)="pagination.next()" class="page-link" href="/" onclick="return false;" aria-label="Next">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</pagination-template>
+</div>
+<app-footer></app-footer>

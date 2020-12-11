@@ -16,7 +16,6 @@ import { ReviewFormComponent } from './review-form/review-form.component';
 import { SearchComponent } from './search/search.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
-import { BodyComponent } from './body/body.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShopsComponent } from './shops/shops.component';
 import { NewshopFormComponent } from './newshop-form/newshop-form.component';
@@ -31,7 +30,6 @@ import { RegisterComponent } from './register/register.component';
     SearchComponent,
     NavbarComponent,
     FooterComponent,
-    BodyComponent,
     ShopsComponent,
     NewshopFormComponent,
     LoginComponent,

@@ -6,6 +6,8 @@ import { ReviewFormComponent } from './review-form/review-form.component';
 import { ShopsComponent } from './shops/shops.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { NewshopFormComponent } from './newshop-form/newshop-form.component'
 
 const routes: Routes = [
   {
@@ -27,6 +29,10 @@ const routes: Routes = [
   {
     path: 'shops',
     component: ShopsComponent
+  },
+  {
+    path: 'addshop',
+    component: NewshopFormComponent
   }
 ];
 

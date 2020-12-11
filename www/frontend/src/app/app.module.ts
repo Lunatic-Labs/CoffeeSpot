@@ -21,6 +21,7 @@ import { ShopsComponent } from './shops/shops.component';
 import { NewshopFormComponent } from './newshop-form/newshop-form.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { SearchFormComponent } from './search-form/search-form.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { RegisterComponent } from './register/register.component';
     ShopsComponent,
     NewshopFormComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    SearchFormComponent
   ],
   imports: [
     BrowserModule,
